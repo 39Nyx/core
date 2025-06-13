@@ -1,0 +1,23 @@
+<script src="../../dist/vue.global.js"></script>
+
+<div id="demo">
+  <h1>{{ hello }}</h1>
+</div>
+
+<script>
+  const { ref } = Vue
+  Vue.createApp({
+    setup() {
+      const hello = ref('Hello World!')
+      return { hello }
+    },
+    mounted() {
+      setTimeout(() => {
+        this.hello = 'Hello Vue!'
+      }, 2000)
+    }
+  }).mount('#demo')
+</script>
+
+<style>
+</style>
