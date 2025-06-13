@@ -96,9 +96,11 @@ export function shallowRef(value?: unknown) {
 }
 
 function createRef(rawValue: unknown, shallow: boolean) {
+  // 判断是否是RefImpl实例
   if (isRef(rawValue)) {
     return rawValue
   }
+  // 创建RefImpl实例
   return new RefImpl(rawValue, shallow)
 }
 
@@ -106,22 +108,44 @@ function createRef(rawValue: unknown, shallow: boolean) {
  * @internal
  */
 class RefImpl<T = any> {
+  /**
+   * 引用的当前值
+   */
   _value: T
+  /**
+   * 引用变量的原始值
+   * @private
+   */
   private _rawValue: T
 
   dep: Dep = new Dep()
 
+  /**
+   * 标志属性是否是RefImpl实例
+   */
   public readonly [ReactiveFlags.IS_REF] = true
+  /**
+   * 标志属性, 是否是浅层的Shallow
+   */
   public readonly [ReactiveFlags.IS_SHALLOW]: boolean = false
 
+  /**
+   *
+   * @param value 初始值
+   * @param isShallow 标记这个Ref是否是浅层的Shallow
+   */
   constructor(value: T, isShallow: boolean) {
+    // 获取原始值
     this._rawValue = isShallow ? value : toRaw(value)
+    // 获取Reactive值
     this._value = isShallow ? value : toReactive(value)
     this[ReactiveFlags.IS_SHALLOW] = isShallow
   }
 
   get value() {
+    // 开发环境
     if (__DEV__) {
+      // 依赖收集
       this.dep.track({
         target: this,
         type: TrackOpTypes.GET,
@@ -130,6 +154,7 @@ class RefImpl<T = any> {
     } else {
       this.dep.track()
     }
+    // 直接返回值
     return this._value
   }
 
@@ -140,10 +165,14 @@ class RefImpl<T = any> {
       isShallow(newValue) ||
       isReadonly(newValue)
     newValue = useDirectValue ? newValue : toRaw(newValue)
+    // 判断值是否有变化
     if (hasChanged(newValue, oldValue)) {
+      // 更新原始值
       this._rawValue = newValue
+      // 更新Reactive值
       this._value = useDirectValue ? newValue : toReactive(newValue)
       if (__DEV__) {
+        // 开发环境触发依赖收集
         this.dep.trigger({
           target: this,
           type: TriggerOpTypes.SET,
@@ -152,6 +181,7 @@ class RefImpl<T = any> {
           oldValue,
         })
       } else {
+        // 触发依赖收集
         this.dep.trigger()
       }
     }
