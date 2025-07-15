@@ -60,7 +60,7 @@ function has(this: CollectionTypes, key: unknown, isReadonly = false): boolean {
     : target.has(key) || target.has(rawKey)
 }
 
-function size(target: IterableCollections, isReadonly = false) {
+function size(target: IterableCollections, isReadonly = false): any {
   target = (target as any)[ReactiveFlags.RAW]
   !isReadonly && track(toRaw(target), TrackOpTypes.ITERATE, ITERATE_KEY)
   return Reflect.get(target, 'size', target)

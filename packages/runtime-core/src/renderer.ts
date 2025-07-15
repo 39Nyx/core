@@ -84,7 +84,7 @@ export interface HydrationRenderer extends Renderer<Element | ShadowRoot> {
 
 export type RootRenderFunction<HostElement = RendererElement> = (
   vnode: VNode | null,
-  container: HostElement,
+  container: HostElement | any,
   isSVG?: boolean
 ) => void
 

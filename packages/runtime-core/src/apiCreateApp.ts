@@ -303,7 +303,7 @@ export function createAppAPI<HostElement>(
           // HMR root reload
           if (__DEV__) {
             context.reload = () => {
-              render(cloneVNode(vnode), rootContainer, isSVG)
+              render(cloneVNode(vnode), rootContainer as HostElement, isSVG)
             }
           }
 

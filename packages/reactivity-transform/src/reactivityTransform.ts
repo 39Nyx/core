@@ -323,7 +323,7 @@ export function transformAST(
 
     for (const p of pattern.properties) {
       let nameId: Identifier | undefined
-      let key: Expression | string | undefined
+      let key: Expression | string | undefined | any
       let defaultValue: Expression | undefined
       if (p.type === 'ObjectProperty') {
         if (p.key.start! === p.value.start!) {

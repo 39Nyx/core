@@ -382,7 +382,7 @@ export function compileScript(
     }
   }
 
-  function processDefineProps(node: Node, declId?: LVal): boolean {
+  function processDefineProps(node: Node, declId?: LVal | any): boolean {
     if (!isCallOf(node, DEFINE_PROPS)) {
       return false
     }
@@ -475,7 +475,7 @@ export function compileScript(
     return true
   }
 
-  function processWithDefaults(node: Node, declId?: LVal): boolean {
+  function processWithDefaults(node: Node, declId?: LVal | any): boolean {
     if (!isCallOf(node, WITH_DEFAULTS)) {
       return false
     }
@@ -513,7 +513,7 @@ export function compileScript(
     return true
   }
 
-  function processDefineEmits(node: Node, declId?: LVal): boolean {
+  function processDefineEmits(node: Node, declId?: LVal | any): boolean {
     if (!isCallOf(node, DEFINE_EMITS)) {
       return false
     }
@@ -972,7 +972,7 @@ export function compileScript(
     if (node.trailingComments && node.trailingComments.length > 0) {
       const lastCommentNode =
         node.trailingComments[node.trailingComments.length - 1]
-      end = lastCommentNode.end + startOffset
+      end = lastCommentNode.end! + startOffset
     }
     // locate the end of whitespace between this statement and the next
     while (end <= source.length) {
@@ -1869,7 +1869,7 @@ function extractRuntimeEmits(
 }
 
 function extractEventNames(
-  eventName: Identifier | RestElement,
+  eventName: Identifier | RestElement | any,
   emits: Set<string>
 ) {
   if (

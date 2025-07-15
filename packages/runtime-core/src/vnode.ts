@@ -163,13 +163,13 @@ export interface VNode<
   children: VNodeNormalizedChildren
   component: ComponentInternalInstance | null
   dirs: DirectiveBinding[] | null
-  transition: TransitionHooks<HostElement> | null
+  transition: TransitionHooks<any> | null
 
   // DOM
-  el: HostNode | null
-  anchor: HostNode | null // fragment anchor
-  target: HostElement | null // teleport target
-  targetAnchor: HostNode | null // teleport target anchor
+  el: HostNode | null | any
+  anchor: HostNode | null | any // fragment anchor
+  target: HostElement | null | any // teleport target
+  targetAnchor: HostNode | null | any // teleport target anchor
   /**
    * number of elements contained in a static vnode
    * @internal

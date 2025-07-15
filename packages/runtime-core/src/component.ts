@@ -814,7 +814,7 @@ export function finishComponentSetup(
           // pass runtime compat config into the compiler
           finalCompilerOptions.compatConfig = Object.create(globalCompatConfig)
           if (Component.compatConfig) {
-            extend(finalCompilerOptions.compatConfig, Component.compatConfig)
+            extend(finalCompilerOptions.compatConfig || {}, Component.compatConfig)
           }
         }
         Component.render = compile(template, finalCompilerOptions)
